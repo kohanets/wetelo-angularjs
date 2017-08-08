@@ -1,0 +1,45 @@
+<div layout="row" layout-align="center">
+  <md-card flex="40">
+    <img ng-src="../../../assets/images/start-img.jpg" class="md-card-image" alt="Pretty img">
+    <md-card-title>
+      <md-card-title-text >
+        <span class="md-headline" layout="row" layout-align="center">Authentication card</span>
+        <span layout="row" layout-align="center" style="color: red">{{auth.errorMsg}}</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <md-content layout="row" layout-align="center">
+
+      <div flex="80" layout="column">
+        <md-input-container flex="45">
+          <label for="email">Email</label>
+          <input ng-model="auth.authCredentials.email" id="email" type="text">
+        </md-input-container>
+
+        <md-input-container flex="45">
+          <label>Password</label>
+          <input ng-model="auth.authCredentials.password" id="password" type="password">
+        </md-input-container>
+
+        <md-input-container ng-if="auth.registrationBookmark" flex="45">
+          <label>re-Password</label>
+          <input ng-model="auth.authCredentials.rePassword" id="rePassword" type="password">
+        </md-input-container>
+      </div>
+
+    </md-content>
+
+    <md-card-actions layout="row" layout-align="center">
+
+      <md-button ng-if="!auth.registrationBookmark" style="color: turquoise" ng-click="auth.registrationBookmark = true">Sign Up</md-button>
+      <md-button ng-if="!auth.registrationBookmark" ng-click="auth.auth()">Sign In</md-button>
+
+      <md-button ng-if="auth.registrationBookmark" ng-click="auth.registrationBookmark = false">Back</md-button>
+      <md-button ng-if="auth.registrationBookmark" ng-click="auth.registration()">Sign Up</md-button>
+
+    </md-card-actions>
+  </md-card>
+</div>
+
+
+
