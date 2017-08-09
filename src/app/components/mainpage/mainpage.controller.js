@@ -6,7 +6,7 @@
     .controller('MainpageController', MainpageController);
 
   /** @ngInject */
-  function MainpageController($cookies, $location, authService) {
+  function MainpageController($cookies, $state, authService) {
     var vm = this;
 
 
@@ -28,7 +28,11 @@
         .then(function (result) {
           if (!result.data.succsess){
             $cookies.remove('token');
-            $location.path('/');
+            $state.go('auth')
+          } else {
+            $cookies.put('userid', result.data.msg._doc._id);
+            $cookies.put('username', result.data.msg._doc.email);
+            $state.go('booklist');
           }
         })
     }

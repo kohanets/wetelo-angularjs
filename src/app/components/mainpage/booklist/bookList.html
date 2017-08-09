@@ -1,4 +1,94 @@
-<h3>This is booklist</h3>
-<ul ng-repeat="book in vm.books">
-  <li >Name:{{book.title}} ID : {{book._id}}</li>
-</ul>
+<div layout="row" layout-align="center center">
+  <h2>
+    Books list
+  </h2>
+</div>
+<div layout="row" layout-align="center center">
+  <md-input-container>
+    <label>Search</label>
+    <input ng-model="vm.search">
+  </md-input-container>
+</div>
+<div layout="row" layout-align="center center">
+  <table flex="80">
+
+  <thead>
+  <tr>
+    <th style="width: 30%">
+      <span ng-click="vm.sort('author')">
+        Author
+        <span class="material-icons" ng-show="vm.sortKey=='author'">{{vm.reverse ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</span>
+      </span>
+    </th>
+    <th style="width: 25%">
+      <span ng-click="vm.sort('title')">
+        Title
+        <span class="material-icons" ng-show="vm.sortKey=='title'">{{vm.reverse ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</span>
+      </span>
+    </th>
+    <th style="width: 10%">
+      <span ng-click="vm.sort('rating')">
+        Rating
+        <span class="material-icons" ng-show="vm.sortKey=='rating'">{{vm.reverse ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</span>
+      </span>
+    </th>
+    <th style="width: 10%">
+      <span ng-click="vm.sort('status')">
+        Status
+        <span class="material-icons" ng-show="vm.sortKey=='status'">{{vm.reverse ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</span>
+      </span>
+    </th>
+    <th style="width: 25%">
+      <span>Actions</span>
+    </th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr ng-repeat="book in vm.books | orderBy:vm.sortKey:vm.reverse | searchFilter:vm.search">
+    <td ng-click="vm.openBook(book._id)" class="pointer">
+      {{book.author}}
+    </td>
+    <td ng-click="vm.openBook(book._id)" class="pointer">
+      {{book.title}}
+    </td>
+    <td>
+      <ng-rate-it ng-model="book.rating" resetable="false" ng-click="vm.updateBook(book)" step="1"></ng-rate-it>
+    </td>
+    <td>
+      <md-input-container layout="row" layout-align="center center">
+        <md-switch aria-label="switch" ng-model="book.status" ng-change="vm.updateBook(book)"></md-switch>
+      </md-input-container>
+    </td>
+    <td>
+      <md-button class="md-raised md-primary" ui-sref="editbook({id : book._id})">Edit</md-button>
+      <md-button class="md-raised md-warn" ng-click="vm.deleteBook(book._id)">Delete</md-button>
+    </td>
+  </tr>
+  </tbody>
+
+</table>
+
+</div>
+
+
+<div layout="row" layout-align="center center" ng-if="vm.openedBook">
+  <div flex="60">
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">{{vm.openedBook.title}}</span>
+          <span class="md-subhead">by {{vm.openedBook.author}}</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <ng-rate-it ng-model="vm.openedBook.rating" read-only="true"></ng-rate-it>
+        <p>{{vm.openedBook.description}}</p>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button ng-click="vm.download(vm.openedBook.url)">Download</md-button>
+        <md-button ng-click="vm.openedBook = null">Close</md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>

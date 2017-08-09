@@ -19,7 +19,7 @@
     return directive;
 
     /** @ngInject */
-    function NavbarController($cookies, $location) {
+    function NavbarController($cookies, $state) {
       var vm = this;
 
       function activate() {
@@ -28,7 +28,7 @@
 
       vm.logout = function () {
         $cookies.remove('token');
-        $location.path('/');
+        $state.go('auth');
       }
 
       activate();

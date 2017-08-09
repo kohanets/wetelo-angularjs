@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('bookapp', ['ngSanitize', 'ui.router', 'ngMaterial', 'ngCookies']);
+    .module('bookapp', ['ngSanitize', 'ui.router', 'uiRouterStyles', 'ngMaterial', 'ngCookies', 'ngFileUpload', 'ngRateIt']);
 
 })();

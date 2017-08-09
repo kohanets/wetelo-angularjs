@@ -1,0 +1,54 @@
+<div layout="column" layout-align="center center">
+
+  <div layout="row" layout-align="center center">
+    <h2>Add book</h2>
+  </div>
+
+  <div layout="column" layout-align="center" flex="60">
+    <md-content layout-padding>
+      <form name="addBookForm" ng-submit="vm.uploadBook()">
+
+        <md-input-container class="md-block">
+          <label>Author</label>
+          <input md-maxlength="20" required md-no-asterisk name="author" ng-model="vm.book.author">
+          <div ng-messages="addBookForm.author.$error">
+            <div ng-message="required">This is required.</div>
+            <div ng-message="md-maxlength">The description must be less than 20 characters long.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Title</label>
+          <input md-maxlength="20" required md-no-asterisk name="title" ng-model="vm.book.title">
+          <div ng-messages="addBookForm.title.$error">
+            <div ng-message="required">This is required.</div>
+            <div ng-message="md-maxlength">The description must be less than 20 characters long.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Description</label>
+          <input md-maxlength="60" required md-no-asterisk name="description" ng-model="vm.book.description">
+          <div ng-messages="addBookForm.description.$error">
+            <div ng-message="required">This is required.</div>
+            <div ng-message="md-maxlength">The description must be less than 60 characters long.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container>
+          <md-switch ng-model="vm.book.status">Status</md-switch>
+        </md-input-container>
+
+        <md-input-container>
+          <input type="file" aria-label="select file" required ngf-select ng-model="vm.file" name="file" accept="application/pdf,application/djvu" class="md-raised">
+        </md-input-container>
+
+        <md-input-container>
+          <md-button type="submit" class="md-raised">Submit</md-button>
+        </md-input-container>
+
+      </form>
+    </md-content>
+
+  </div>
+</div>

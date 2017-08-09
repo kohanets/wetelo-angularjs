@@ -27,12 +27,7 @@
     }
 
     function verify(token) {
-      var config = {
-        headers : {
-          token : token
-        }
-      }
-      return $http.get(apiHost + '/api/verify', config);
+      return $http.get(apiHost + '/api/verify');
     }
   }
 })();

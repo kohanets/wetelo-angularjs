@@ -6,7 +6,7 @@
     .controller('AuthController', AuthController);
 
   /** @ngInject */
-  function AuthController(authService, $cookies, $location) {
+  function AuthController(authService, $cookies, $state) {
     var vm = this;
 
     vm.errorMsg = '';
@@ -59,7 +59,7 @@
 
     vm.isAuthorised = function () {
       if ($cookies.get('token')){
-        $location.path('/index');
+        $state.go('main')
       }
     }
 
