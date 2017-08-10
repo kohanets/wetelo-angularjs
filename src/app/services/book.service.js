@@ -16,14 +16,20 @@
       uploadFile: uploadFile,
       postBook: postBook,
       deleteBook: deleteBook,
-      updateBook: updateBook
+      updateBook: updateBook,
+      getPaginationBooks: getPaginationBooks
     };
 
     return service;
 
     function getBooks() {
+    // :curentPage/:booksOnPage/:filterBy/:orderBy/:reverse'
       return $http.get(apiHost + '/secure-api/getbooks');
     };
+
+    function getPaginationBooks(curentPage,booksOnPage,filterBy,orderBy,reverse) {
+      return $http.get(apiHost + '/secure-api/books/' + curentPage + '/' + booksOnPage + '/' + filterBy + '/' + orderBy + '/' + reverse);
+    }
 
     function getBook(id) {
       return $http.get(apiHost + '/secure-api/getbook/' + id);

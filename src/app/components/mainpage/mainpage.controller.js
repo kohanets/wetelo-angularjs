@@ -17,7 +17,7 @@
 
     vm.isAuthorised = function () {
       if (!angular.isDefined($cookies.get('token'))){
-        $location.path('/');
+        $state.go('auth');
       } else {
         vm.verifyUser();
       }
@@ -28,7 +28,7 @@
         .then(function (result) {
           if (!result.data.succsess){
             $cookies.remove('token');
-            $state.go('auth')
+            $state.go('auth');
           } else {
             $cookies.put('userid', result.data.msg._doc._id);
             $cookies.put('username', result.data.msg._doc.email);

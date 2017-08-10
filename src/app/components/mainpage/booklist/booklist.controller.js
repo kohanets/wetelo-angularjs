@@ -4,21 +4,41 @@
   angular
     .module('bookapp')
     .controller('BookListController', BookListController)
-    .filter('searchFilter', function () {
-      return function (books, search) {
-        var filtered = [];
-        for (var i = 0; i < books.length; i++) {
-          if(books[i].title.toLowerCase().includes(search.toLowerCase()) || books[i].author.toLowerCase().includes(search.toLowerCase())) {
-            filtered.push(books[i]);
+    .directive('paginator',function () {
+      return {
+        scope: {
+          totalPages: "="
+        },
+        templateUrl: 'app/components/mainpage/booklist/paginator.html',
+        link: function (scope, element, attributes) {
+
+          scope.pages = [];
+
+          scope.openPage = function (page) {
+            scope.$emit('openPage',{
+              value: page
+            })
           }
-        }
-        return filtered;
-      };
+
+          function updatePaginator() { // update to rating value
+            scope.pages = [];
+            for (var i = 1; i <= scope.totalPages; i++) {
+              scope.pages.push({
+                value: i
+              });
+            }
+          };
+
+          scope.$watch('totalPages', function(oldValue, newValue) {
+            updatePaginator();
+          })
+
+        }}
     });
 
 
   /** @ngInject */
-  function BookListController(bookService, $cookies, $window) {
+  function BookListController(bookService, $window, $scope) {
     var vm = this;
 
     vm.books = [];
@@ -27,15 +47,37 @@
 
     vm.openedBook = null;
 
-    function activate() {
-      vm.getBooks();
-    }
+    vm.totalPages = '1';
 
-    vm.getBooks = function () {
-      bookService.getBooks()
+    vm.pagOpt = {
+      curentPage: 1,
+      booksOnPage: 4,
+      filterBy: '',
+      orderBy: 'null',
+      reverse : false
+    };
+
+    $scope.$on('openPage',function (event, args) {
+      vm.pagOpt.curentPage = args.value;
+    })
+
+    $scope.$watch('vm.pagOpt', function(newVal, oldVal){
+      vm.getPaginationBooks(vm.pagOpt.curentPage,vm.pagOpt.booksOnPage,vm.pagOpt.filterBy,vm.pagOpt.orderBy,vm.pagOpt.reverse);
+    }, true);
+
+    vm.getPaginationBooks = function (curentPage,booksOnPage,filterBy,orderBy,reverse) {
+      if (filterBy === ''){
+        filterBy = null;
+      }
+      bookService.getPaginationBooks(curentPage,booksOnPage,filterBy,orderBy,reverse)
         .then(function (result) {
           vm.books = result.data.data;
+          vm.totalPages = result.data.pagesCount;
         })
+    }
+
+    function activate() {
+
     }
 
     vm.deleteBook = function (bookid) {
@@ -73,8 +115,8 @@
     }
 
     vm.sort = function(keyname){
-      vm.sortKey = keyname;   //set the sortKey to the param passed
-      vm.reverse = !vm.reverse; //if true make it false and vice versa
+      vm.pagOpt.orderBy = keyname;
+      vm.pagOpt.reverse = !vm.pagOpt.reverse;
     }
 
     activate();
