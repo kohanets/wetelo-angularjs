@@ -24,10 +24,10 @@
     }
 
     vm.verifyUser = function () {
-      authService.verify($cookies.get('token'))
+      authService.verify(authService.getToken())
         .then(function (result) {
           if (!result.data.succsess){
-            $cookies.remove('token');
+            authService.removeToken();
             $state.go('auth');
           } else {
             $cookies.put('userid', result.data.msg._doc._id);

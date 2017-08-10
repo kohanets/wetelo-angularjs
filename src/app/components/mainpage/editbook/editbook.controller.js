@@ -20,6 +20,11 @@
       bookService.getBook($state.params.id)
         .then(function (result) {
           vm.book = result.data;
+        }, function (responce) {
+          if (responce.status == 404){
+            alert('Error 404, page not found');
+            $state.go('booklist');
+          }
         });
     }
 

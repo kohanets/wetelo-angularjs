@@ -28,7 +28,7 @@
       authService.authenticate(vm.authCredentials)
         .then(function (result) {
           if (result.data.succsess == true){
-            $cookies.put('token',result.data.token);
+            authService.putToken(result.data.token);
             vm.isAuthorised();
           }
           else {
@@ -43,11 +43,10 @@
         authService.registration(vm.authCredentials)
           .then(function (result) {
             if (result.data.succsess == true){
-              $cookies.put('token',result.data.token);
+              authService.putToken(result.data.token);
               vm.isAuthorised();
             }
             else {
-              console.log(result);
               vm.errorMsg = result.data.message;
               vm.authCredentials = {};
             }
@@ -58,7 +57,7 @@
     }
 
     vm.isAuthorised = function () {
-      if ($cookies.get('token')){
+      if (authService.getToken()){
         $state.go('main')
       }
     }

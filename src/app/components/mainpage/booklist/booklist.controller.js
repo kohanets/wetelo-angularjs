@@ -7,18 +7,14 @@
     .directive('paginator',function () {
       return {
         scope: {
-          totalPages: "="
+          totalPages: "=",
+          changePage: '='
         },
         templateUrl: 'app/components/mainpage/booklist/paginator.html',
         link: function (scope, element, attributes) {
 
           scope.pages = [];
 
-          scope.openPage = function (page) {
-            scope.$emit('openPage',{
-              value: page
-            })
-          }
 
           function updatePaginator() { // update to rating value
             scope.pages = [];
@@ -51,15 +47,12 @@
 
     vm.pagOpt = {
       curentPage: 1,
-      booksOnPage: 4,
+      booksOnPage: 5,
       filterBy: '',
       orderBy: 'null',
       reverse : false
     };
 
-    $scope.$on('openPage',function (event, args) {
-      vm.pagOpt.curentPage = args.value;
-    })
 
     $scope.$watch('vm.pagOpt', function(newVal, oldVal){
       vm.getPaginationBooks(vm.pagOpt.curentPage,vm.pagOpt.booksOnPage,vm.pagOpt.filterBy,vm.pagOpt.orderBy,vm.pagOpt.reverse);
@@ -117,6 +110,10 @@
     vm.sort = function(keyname){
       vm.pagOpt.orderBy = keyname;
       vm.pagOpt.reverse = !vm.pagOpt.reverse;
+    }
+
+    vm.changePage = function (page) {
+      vm.pagOpt.curentPage = page;
     }
 
     activate();

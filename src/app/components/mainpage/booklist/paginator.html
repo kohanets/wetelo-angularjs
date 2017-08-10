@@ -1,5 +1,5 @@
 <div  layout="row" layout-align="center center">
-  <div  style="margin: 2px;" ng-repeat="page in pages" ng-click="openPage(page.value)">
+  <div  style="margin: 2px; cursor: pointer" ng-repeat="page in pages" ng-click="changePage(page.value)">
     <i>{{page.value}}</i>
   </div>
 </div>
